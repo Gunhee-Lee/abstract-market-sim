@@ -1,2 +1,3 @@
 startTurn: 0
 endTurn: 999
+initialMoney: 1000000000

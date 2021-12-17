@@ -7,8 +7,14 @@ from decimal import *
 import yaml
 
 class Market:
-    pass
-
+    def __init__(self, config):
+        self.turn = Turn(config["startTurn"], config["endTurn"])
+        self.bank = Bank(config["initialMoney"])
+    def StartSimulation(self):
+        while self.turn.ProceedTurn() == True:
+            print("  Do something in this turn -- still implementing.")
+        return
+    
 class Actor:
     pass
 
@@ -18,34 +24,41 @@ class Turn:
         self.endTurn = endTurn
         self.currentTurn = startTurn
         self.turnIncrements = 1
-    def proceedTurn(self):
-        print("-- Current turn", self.currentTurn, "starts. --")
-        if self.currentTurn < self.endTurn:
+    def ProceedTurn(self):
+        if self.currentTurn <= self.endTurn:
+            print("-- Current turn", self.currentTurn, "starts. --")
             self.currentTurn += self.turnIncrements
             return True
         else:
-            print("  Reached end of turn", self.endTurn, ".")
+            print("  Reached endTurn", self.endTurn, ".")
             return False
-
+                 
 class Bank:
-    pass
+    def __init__(self, initialMoney):
+        self.initialMoney = Decimal(initialMoney)   # is Decimal() idempotent?
 
 class Treasury:
-    pass
+    def PrintMoney(self, amount):
+        return
     
+class Product:
+    pass    
 
+class Service:
+    pass
 
-def loadConfigYaml():
+def LoadConfigYaml():
     print("Loading default config.yaml file...")
     with open('config.yaml', 'r') as file:
         config = yaml.safe_load(file)
     return config
     
-def main():
+def Main():
     print("Abstract market simulator v0.1")
-    config = loadConfigYaml()
+    config = LoadConfigYaml()
     print(config)
-    print(config["startTurn"])
+    market = Market(config)
+    market.StartSimulation()
     
 if __name__ == "__main__":
-    main()
+    Main()

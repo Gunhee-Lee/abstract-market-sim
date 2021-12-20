@@ -14,7 +14,11 @@ class Market:
         while self.turn.ProceedTurn() == True:
             print("  Do something in this turn -- still implementing.")
         return
-    
+    def LoadProductsYaml(self):
+        raise NotImplementedError()
+    # TODO: Make a data structure and algorithms to solve the bid-ask spread
+    #       mechanism. (https://www.investopedia.com/trading/basics-of-the-bid-ask-spread/)
+
 class Actor:
     pass
 
@@ -42,7 +46,9 @@ class Treasury:
         return
     
 class Product:
-    pass    
+    def __init__(self, uniqueProductId, productName):
+        self.uniqueProductId = str(uniqueProductId)  # make sure it is a string.
+        self.productName = str(productName)
 
 class Service:
     pass
@@ -58,6 +64,7 @@ def Main():
     config = LoadConfigYaml()
     print(config)
     market = Market(config)
+    market.LoadProductsYaml()
     market.StartSimulation()
     
 if __name__ == "__main__":
